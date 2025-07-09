@@ -4,7 +4,7 @@ import { View, Text } from 'react-native'
 export default function Chatcomponent() {
     return (
         <View>
-            <Text>PlaceListView</Text>
+            <Text>Chatcomponent</Text>
         </View>
     )
 }
