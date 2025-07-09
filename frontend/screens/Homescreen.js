@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { View, Text, ImageBackground, StyleSheet, Pressable, TextInput, Alert, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, ToastAndroid, Pressable, TextInput, Alert, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import { GlobalContext } from '../context'
 
 export default function Homescreen({ navigation }) {
@@ -18,7 +18,7 @@ export default function Homescreen({ navigation }) {
 
             if (isLogin) {
                 if (index === -1) {
-                    Alert.alert("Please register first");
+            ToastAndroid.showWithGravity("Please register first", ToastAndroid.SHORT, ToastAndroid.TOP);
                 } else {
                     setCurrentUser(currentUserName);
                 }
@@ -28,13 +28,13 @@ export default function Homescreen({ navigation }) {
                     setAllUsers(allUsers);
                     setCurrentUser(currentUserName);
                 } else {
-                    Alert.alert("Already registered ! Please login");
+            ToastAndroid.showWithGravity("Already registered. Please Login", ToastAndroid.SHORT, ToastAndroid.TOP);
                 }
             }
 
             setCurrentUserName("");
         } else {
-            Alert.alert("User name field is empty");
+            ToastAndroid.showWithGravity("Username field is empty", ToastAndroid.SHORT, ToastAndroid.TOP);
         }
 
         Keyboard.dismiss();
@@ -53,62 +53,62 @@ export default function Homescreen({ navigation }) {
                 style={{ flex: 1 }}
             >
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <View style={styles.container}>
-                    <ImageBackground source={require("../assets/homeImg.jpg")}
-                        style={styles.backImg} />
+                    <View style={styles.container}>
+                        <ImageBackground source={require("../assets/homeImg.jpg")}
+                            style={styles.backImg} />
 
-                    <View style={styles.content}>
-                        {
-                            showLoginView ?
-                                (<View style={styles.infoBlock}>
-                                    <View style={styles.LoginInputContainer}>
-                                        <Text style={styles.heading}>Enter Your User Name</Text>
-                                        <TextInput
-                                            autoCorrect={false}
-                                            placeholder="Username"
-                                            style={styles.loginInput}
-                                            onChangeText={(value) => setCurrentUserName(value)}
-                                            value={currentUserName}
-                                        />
-                                    </View>
-                                    <View style={styles.buttonWrapper}>
-                                        <Pressable
-                                            onPress={() => handleRegisterAndSignIn(false)}
-                                            style={styles.button}
-                                        >
-                                            <View>
-                                                <Text style={styles.buttonText}>Register</Text>
-                                            </View>
-                                        </Pressable>
-                                        <Pressable
-                                            onPress={() => handleRegisterAndSignIn(true)}
-                                            style={styles.button}
-                                        >
-                                            <View>
-                                                <Text style={styles.buttonText}>Login</Text>
-                                            </View>
-                                        </Pressable>
-                                    </View>
-                                </View>)
-                                :
-                                (
-                                    <View style={styles.infoBlock}>
-                                        <Text style={styles.heading}>Connect, Grow and Inspire</Text>
-                                        <Text style={styles.subHeading}>
-                                            Connect people around the world for free
-                                        </Text>
-                                        <Pressable
-                                            style={styles.button}
-                                            onPress={() => setShowLoginView(true)}
-                                        >
-                                            <View>
-                                                <Text style={styles.buttonText}>Get Started</Text>
-                                            </View>
-                                        </Pressable>
-                                    </View>
-                                )}
+                        <View style={styles.content}>
+                            {
+                                showLoginView ?
+                                    (<View style={styles.infoBlock}>
+                                        <View style={styles.LoginInputContainer}>
+                                            <Text style={styles.heading}>Enter Your User Name</Text>
+                                            <TextInput
+                                                autoCorrect={false}
+                                                placeholder="Username"
+                                                style={styles.loginInput}
+                                                onChangeText={(value) => setCurrentUserName(value)}
+                                                value={currentUserName}
+                                            />
+                                        </View>
+                                        <View style={styles.buttonWrapper}>
+                                            <Pressable
+                                                onPress={() => handleRegisterAndSignIn(false)}
+                                                style={styles.button}
+                                            >
+                                                <View>
+                                                    <Text style={styles.buttonText}>Register</Text>
+                                                </View>
+                                            </Pressable>
+                                            <Pressable
+                                                onPress={() => handleRegisterAndSignIn(true)}
+                                                style={styles.button}
+                                            >
+                                                <View>
+                                                    <Text style={styles.buttonText}>Login</Text>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                    </View>)
+                                    :
+                                    (
+                                        <View style={styles.infoBlock}>
+                                            <Text style={styles.heading}>Connect, Grow and Inspire</Text>
+                                            <Text style={styles.subHeading}>
+                                                Connect people around the world for free
+                                            </Text>
+                                            <Pressable
+                                                style={styles.button}
+                                                onPress={() => setShowLoginView(true)}
+                                            >
+                                                <View>
+                                                    <Text style={styles.buttonText}>Get Started</Text>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                    )}
+                        </View>
                     </View>
-                </View>
                 </ScrollView>
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
