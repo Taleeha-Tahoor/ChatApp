@@ -24,8 +24,9 @@ export default function Homescreen({ navigation }) {
                 }
             } else {
                 if (index === -1) {
-                    allUsers.push(currentUserName);
-                    setAllUsers(allUsers);
+                    // allUsers.push(currentUserName);
+                    // setAllUsers(allUsers);
+                    setAllUsers([...allUsers, currentUserName]);
                     setCurrentUser(currentUserName);
                 } else {
             ToastAndroid.showWithGravity("Already registered. Please Login", ToastAndroid.SHORT, ToastAndroid.TOP);
