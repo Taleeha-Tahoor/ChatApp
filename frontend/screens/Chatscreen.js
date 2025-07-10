@@ -1,10 +1,11 @@
-import React, { useContext } from 'react'
-import { View, Text, StyleSheet, Pressable, FlatList } from 'react-native'
+import React, { useContext, useEffect } from 'react'
+import { View, Text, StyleSheet, Pressable, FlatList, Modal } from 'react-native'
 import { AntDesign } from "@expo/vector-icons";
 import { GlobalContext } from '../context';
 import Chatcomponent from '../componenets/Chatcomponent';
-
-export default function Chatscreen() {
+import NewGroupModal from '../componenets/Modal';
+import { socket } from '../utils';
+export default function Chatscreen({navigation}) {
 
     const {
         currentUser,
@@ -16,13 +17,32 @@ export default function Chatscreen() {
         setShowLoginView,
     } = useContext(GlobalContext);
 
+    useEffect(()=> {
+        socket.emit('getAllGroups');
+
+        socket.on('groupList', (groups) => {
+            console.log(groups);
+            setAllChatRooms(groups)
+        })
+
+    }, [socket])
+
+    function handleLogout(){
+        setCurrentUser('')
+        setShowLoginView(false)
+    }
+
+    useEffect(()=>{
+        if(currentUser.trim() === '') 
+            navigation.navigate('Homescreen')
+    }, [currentUser])
 
     return (
         <View style={styles.container}>
             <View style={styles.topContainer}>
                 <View style={styles.header}>
                     <Text style={styles.heading}>Welcome {currentUser}</Text>
-                    <Pressable>
+                    <Pressable onPress={handleLogout}>
                         <AntDesign name="logout" size={30} color={"black"} />
                     </Pressable>
                 </View>
@@ -43,6 +63,10 @@ export default function Chatscreen() {
                     </View>
                 </Pressable>
             </View>
+            {
+                modalVisible && <NewGroupModal />
+            }
+
         </View>
 
     )

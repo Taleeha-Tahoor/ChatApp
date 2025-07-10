@@ -4,7 +4,7 @@ const http = require("http").Server(app);
 const cors = require("cors");
 const socketIO = require("socket.io")(http, {
   cors: {
-    origin: "http://10.0.2.2:3000/",
+    origin: "*",
   },
 });
 
@@ -35,33 +35,38 @@ socketIO.on("connection", (socket) => {
       messages: [],
     });
     socket.emit("groupList", chatgroups);
-  });
 
+  })
   socket.on("findGroup", (id) => {
     const filteredGroup = chatgroups.filter((item) => item.id === id);
-    socket.emit("foundGroup", filteredGroup[0].messages);
+    socket.emit("foundGroup", filteredGroup[0]?.messages);
   });
 
+
   socket.on("newChatMessage", (data) => {
-    const { currentChatMesage, groupIdentifier, currentUser, timeData } = data;
+    const { currentChatMessage, groupIdentifier, currentUser, timeData } = data;
+    console.log(data)
     const filteredGroup = chatgroups.filter(
       (item) => item.id === groupIdentifier
     );
     const newMessage = {
       id: createUniqueId(),
-      text: currentChatMesage,
+      text: currentChatMessage,
       currentUser,
       time: `${timeData.hr}:${timeData.mins}`,
     };
-
     socket
-      .to(filteredGroup[0].currentGroupName)
+      .to(filteredGroup[0]?.currentGroupName)
       .emit("groupMessage", newMessage);
-    filteredGroup[0].messages.push(newMessage);
+    filteredGroup[0]?.messages.push(newMessage);
     socket.emit("groupList", chatgroups);
-    socket.emit("foundGroup", filteredGroup[0].messages);
+    socket.emit("foundGroup", filteredGroup[0]?.messages);
   });
 });
+
+
+
+
 
 app.get("/api", (req, res) => {
   res.json(chatgroups);

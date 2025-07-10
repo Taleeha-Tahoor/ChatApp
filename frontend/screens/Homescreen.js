@@ -54,7 +54,7 @@ export default function Homescreen({ navigation }) {
             >
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={styles.container}>
-                        <ImageBackground source={require("../assets/homeImg.jpg")}
+                        <ImageBackground source={require("../assets/homeImg.png")}
                             style={styles.backImg} />
 
                         <View style={styles.content}>
